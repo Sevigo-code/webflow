@@ -13,14 +13,16 @@ function App() {
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <main className="main-content">
-        {activeTab === 'store' ? (
+        {/* Sección de tienda */}
+        {activeTab === 'store' && (
           <>
-            <Hero />
+            <Hero setActiveTab={setActiveTab} />
             <Store />
           </>
-        ) : (
-          <News />
         )}
+        
+        {/* Sección de noticias */}
+        {activeTab === 'news' && <News />}
       </main>
 
       <Footer />

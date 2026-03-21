@@ -1,109 +1,88 @@
-import React from 'react';
-import { ShoppingCart, Star, Cpu, Smartphone, Headphones } from 'lucide-react';
-import './Store.css';
+import React, { useState } from 'react';
+import { Cpu, Smartphone, Headphones } from 'lucide-react';
+import Card from './Card';
+import './Css/Store.css';
 
 const products = [
     {
         id: 1,
-        name: 'AURA X1 Pro Laptop',
-        category: 'Computadoras',
-        price: 1899,
+        name: 'RTX 4090 Suprim',
+        category: 'Gráficas',
+        price: 1799,
         rating: 4.9,
-        imageIcon: <Cpu size={48} className="product-icon" />,
-        badges: ['Nuevo', 'Más Vendido']
+        imageIcon: <Cpu size={48} className="product-icon" />
     },
     {
         id: 2,
-        name: 'AURA Phantom Phone',
-        category: 'Móviles',
-        price: 999,
+        name: 'Corsair K95 Platinum',
+        category: 'Periféricos',
+        price: 229,
         rating: 4.8,
-        imageIcon: <Smartphone size={48} className="product-icon" />,
-        badges: []
+        imageIcon: <Smartphone size={48} className="product-icon" />
     },
     {
         id: 3,
-        name: 'AURA Sonic Pods',
+        name: 'Audífonos HyperX Cloud',
         category: 'Audio',
-        price: 249,
+        price: 149,
         rating: 4.7,
-        imageIcon: <Headphones size={48} className="product-icon" />,
-        badges: ['Oferta']
+        imageIcon: <Headphones size={48} className="product-icon" />
     },
     {
         id: 4,
-        name: 'AURA VR Edge',
-        category: 'Gaming',
-        price: 499,
+        name: 'Monitor ASUS 240Hz',
+        category: 'Monitores',
+        price: 599,
         rating: 4.6,
-        imageIcon: <Cpu size={48} className="product-icon" />,
-        badges: []
+        imageIcon: <Cpu size={48} className="product-icon" />
     }
 ];
 
-const ProductCard = ({ product }) => (
-    <div className="product-card glass-panel animate-fade-in">
-        <div className="product-badges">
-            {product.badges.map((badge, idx) => (
-                <span key={idx} className={`badge-pill ${badge.toLowerCase().replace(' ', '-')}`}>
-                    {badge}
-                </span>
-            ))}
-        </div>
+const CATEGORIES = ['Todos', 'Gráficas', 'Periféricos', 'Audio', 'Monitores'];
 
-        <div className="product-image-container">
-            <div className="glow-backdrop"></div>
-            {product.imageIcon}
-        </div>
+function Store() {
+    const [activeFilter, setActiveFilter] = useState('Todos');
 
-        <div className="product-info">
-            <div className="product-meta">
-                <span className="category">{product.category}</span>
-                <div className="rating">
-                    <Star size={14} className="star-icon" fill="currentColor" />
-                    <span>{product.rating}</span>
-                </div>
-            </div>
+    // Obtener productos filtrados
+    const filteredProducts = activeFilter === 'Todos' 
+        ? products 
+        : products.filter(product => product.category === activeFilter);
 
-            <h3 className="product-name">{product.name}</h3>
+    // Cambiar el filtro activo
+    const handleFilterChange = (newFilter) => {
+        setActiveFilter(newFilter);
+    };
 
-            <div className="product-bottom">
-                <span className="price">${product.price}</span>
-                <button className="icon-btn add-to-cart">
-                    <ShoppingCart size={18} />
-                </button>
-            </div>
-        </div>
-    </div>
-);
-
-const Store = () => {
     return (
-        <section className="store-section">
+        <section id="store-section" className="store-section">
             <div className="section-header text-center">
                 <h2 className="section-title">
-                    Productos <span className="gradient-text">Destacados</span>
+                    Productos <span className="gradient-text">en Stock</span>
                 </h2>
                 <p className="section-subtitle">
-                    Explora nuestra última colección de dispositivos inteligentes prémium y accesorios.
+                    Tenemos los mejores componentes y periféricos gaming listos para envío inmediato.
                 </p>
             </div>
 
             <div className="filter-bar">
-                {['Todos', 'Computadoras', 'Móviles', 'Audio', 'Gaming'].map((filter, index) => (
-                    <button key={filter} className={`filter-btn ${index === 0 ? 'active' : ''}`}>
+                {CATEGORIES.map((filter) => (
+                    <button 
+                        key={filter} 
+                        className={`filter-btn ${activeFilter === filter ? 'active' : ''}`}
+                        onClick={() => handleFilterChange(filter)}
+                    >
                         {filter}
                     </button>
                 ))}
             </div>
 
             <div className="product-grid">
-                {products.map(product => (
-                    <ProductCard key={product.id} product={product} />
+                {filteredProducts.map((product) => (
+                    <Card key={product.id} product={product} />
                 ))}
             </div>
         </section>
     );
-};
+}
 
 export default Store;
