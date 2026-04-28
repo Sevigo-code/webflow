@@ -203,3 +203,9 @@
     color: #000;
     border-color: var(--primary);
 }
+
+.add-to-cart.added {
+    background: #16a34a;
+    color: #fff;
+    border-color: #16a34a;
+}
